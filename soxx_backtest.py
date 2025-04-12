@@ -11,7 +11,7 @@ sell_dates = []
 
 # 現在の日付から5年前の日付を計算
 end_date = datetime.now()
-start_date = end_date - timedelta(days=10*365)
+start_date = end_date - timedelta(days=20*365)
 
 def get_data(ticker, start_date, end_date):
     data = yf.download(ticker, start=start_date, end=end_date)
@@ -98,15 +98,13 @@ def main():
     # soxx_data = get_data("SPY", start_date, end_date)
     soxx_data = get_data("QQQ", start_date, end_date)
     
-    print(f"バックテスト期間: {soxx_data.index[0].date()} から {soxx_data.index[-1].date()}")
-    print(f"データポイント数: {len(soxx_data)}")
-    
     # バックテスト実行
     bt = Backtest(soxx_data, SOXXStrategy, cash=10000, commission=.002, trade_on_close=True, exclusive_orders=True)
     stats = bt.run()
-    
-    print("\nバックテスト結果:")
+
+    print("メインティッカーバックテスト結果")
     print(stats)
+
 
     bt.plot(filename="soxx_backtest_result.png")
 

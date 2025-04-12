@@ -25,14 +25,12 @@ class GLDStrategy(Strategy):
         
         # SOXXが売られたタイミング（SOXXの60日Donchian Channelの下バンドを下回った日）でGLDに投資
         if any(sell_date.date() == current_date.date() for sell_date in self.sell_dates_dt) and self.position_state != 1:
-            print(f"GLD BUY SIGNAL at {current_date.date()} (SOXXの売却シグナルに基づく)")
             self.buy()
             self.position_state = 1
             return
         
         # SOXXが買われたタイミング（SOXXの120日Donchian Channelの上バンドを上回った日）でGLDを売却
         if any(buy_date.date() == current_date.date() for buy_date in self.buy_dates_dt) and self.position_state != 0:
-            print(f"GLD SELL SIGNAL at {current_date.date()} (SOXXの購入シグナルに基づく)")
             self.position.close()
             self.position_state = 0
             return
